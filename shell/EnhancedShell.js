@@ -15,12 +15,11 @@ class EnhancedShell {
     // Pour l'autocomplétion
     this.availableCommands = [
       {key: "help", desc: "Consulter les commandes disponibles"},
-      {key: "mine", desc: "Démarrer le minage"},
-      {key: "market", desc: "Lister les équipements"},
+      {key: "mine.exe", desc: "Démarrer le minage"},
+      {key: "market.exe", desc: "Lister les équipements"},
       {key: "buy", desc: "Acheter des équipements"},
       {key: "whoami", desc: "Fournit des informations sur l'utilisateur"},
-      {key: "harvest", desc: "Convertis les ZCoins en Dollars"},
-      {key: "cam.exe", desc: "Affiche les caméra de sécurité"},
+      {key: "harvest.exe", desc: "Convertis les ZCoins en Dollars"},
       {key: "clear", desc: "Nettoyage du terminal"}
     ];
     
@@ -235,11 +234,14 @@ class EnhancedShell {
 
   getBasicCommands() {
     return {
-      clear: () => {
+      clear: (msg) => {
+        if(msg){
+          this.write(msg)
+        }
         this.clear();
         this.renderPrompt()
       },
-      help: () => {
+      help: (msg) => {
         this.showCommands();
         this.renderPrompt()
       },
@@ -264,13 +266,11 @@ class EnhancedShell {
         this.renderPrompt()
       },
       
-      ls: (game, args) => {
+      ls: (args) => {
         const files = [
-          { name: "Action_For_San_Andreas", type: "dir", color: "red" },
-          { name: "belle_terrasse.jpg", type: "file", color: "yellow" },
-          { name: "cam.exe", type: "file", color: "green" },
-          { name: "Gigi D'Agostino - L'Amour Toujours.mp3", type: "file", color: "yellow" },
-          { name: "THE_GOD_FATHER.1972.TS.IT.avi", type: "file", color: "yellow" }
+          { name: "mine.exe", type: "file", color: "green" },
+          { name: "market.exe", type: "file", color: "green" },
+          { name: "buy.py", type: "file", color: "yellow" }
         ];
         
         files.forEach(file => {
@@ -280,7 +280,7 @@ class EnhancedShell {
         this.renderPrompt()
       },
       
-      cd: (game, args) => {
+      cd: (args) => {
         const newPath = args[0] || "~";
         if (newPath === "..") {
           if (this.currentPath !== "~") {

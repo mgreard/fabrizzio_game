@@ -69,7 +69,6 @@ class RecipeCard {
       'mozza': 'Mozza',
       'egg': 'Oeufs',
       'ham': 'Jambons',
-      'ananas': 'Ananas',
     };
     return translations[name] || name;
   }

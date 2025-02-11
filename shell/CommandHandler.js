@@ -1,5 +1,5 @@
 const mainCommands = {
-  "mine": (game) => {
+  "mine.exe": (game) => {
     if(game.state.servers > 0){
       game.miningSystem.startManualMining();
       if(customerManager.customer.state === "waiting"){
@@ -10,7 +10,7 @@ const mainCommands = {
         game.mainTerminal.renderPrompt();
     }
   },
-  "harvest": (game) => {
+  "harvest.exe": (game) => {
     const cryptoAmount = game.state.cryptoBalance
     const convert =  cryptoAmount * CONFIG.GAME.HARVEST_RATIO;
     game.state.moneyBalance += convert;
@@ -36,7 +36,7 @@ const mainCommands = {
   /*"clean.exe": (game) => {
     game.cleaningSystem.startCleaning(5);
   },*/
-  "market": (game) => {
+  "market.exe": (game) => {
     game.marketSystem.listEquipments();
       game.mainTerminal.renderPrompt();
   },
@@ -47,14 +47,6 @@ const mainCommands = {
         grottiView = true;
         game.mainTerminal.renderPrompt();
       }
-  },
-  "cam.exe": (game) => {
-    if(!securityWindow.isVisible){
-      securityWindow.show();
-    } else {
-      securityWindow.close();
-    }
-    game.mainTerminal.renderPrompt();
   }
 }
 

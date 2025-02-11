@@ -1,9 +1,6 @@
 class Customer {
   constructor() {
-    this.reset();
-  }
-  
-  reset(){
+    
     // État du client
     this.state = 'walking_in'; // walking_in, ordering, waiting, eating, leaving
     this.patience = random() * 100 + 100; // Niveau de patience sur 100
@@ -19,7 +16,7 @@ class Customer {
     this.order = {
       recipeId: null,
       orderTime: null,
-      maxWaitingTime: 20,
+      maxWaitingTime: 20, // en secondes
       tip: 0
     };
     
@@ -27,7 +24,7 @@ class Customer {
     this.speechBubble = {
       text: "",
       visible: false,
-      duration: 3000,
+      duration: 3000, // durée d'affichage en ms
       timeout: null
     };
     
@@ -36,18 +33,14 @@ class Customer {
     this.currentAnimation = 'idle';
     this.setState('walking_in');
     
-    // Ajouter une propriété pour la zone cliquable
-    this.clickableArea = {
-      width: 126.5,
-      height: 190.5
-    };
   }
-  
+
   // Gestion de l'état
   setState(newState) {
     this.state = newState;
     this.updateAnimation();
     
+    // Actions spécifiques selon l'état
     switch(newState) {
       case 'walking_in':
         this.moveTo(200, CUSTOMER_SECTION_HEIGHT)
@@ -60,6 +53,7 @@ class Customer {
         this.setState('waiting');
         break;
       case 'waiting':
+        this.startWaitingTimer();
         break;
       case 'eating':
         cookingGauge.hide();
@@ -67,14 +61,6 @@ class Customer {
       case 'leaving':
         this.moveTo(1500, CUSTOMER_SECTION_HEIGHT)
         cookingGauge.hide();
-        break;
-      case 'dying':
-        cookingGauge.hide();
-        recipeCard.hide();
-        document.querySelector(".pizza_builder").classList.remove("cible");
-        setTimeout(() => this.setState('dead'), 2000)
-        break;
-      case 'dead':
         break;
     }
   }
@@ -96,10 +82,10 @@ class Customer {
     
     pizza = new Pizza(assets, CANVAS_WIDTH, CANVAS_HEIGHT);
     pizza.animatePizzaAddition()
+  }
+  
+  startWaitingTimer() {
     
-    if(this.order.recipeId === "hawaienne"){
-        document.querySelector(".pizza_builder").classList.add("cible");
-    }
   }
 
   // Évaluation de la pizza servie
@@ -134,28 +120,7 @@ class Customer {
     }
   }
   
-  // ⚡ Gestion de la commande et validation de la pizza
-  handlePizzaDelivery() {
-    if (this.state === 'waiting') {
-      const satisfactionLevel = this.evaluatePizza();
-      const tip = this.calculateTip();
-      this.setState('eating');
-
-      pizza.animatePizzaPickup();
-      recipeCard.populatePrices(PIZZA_RECIPES[this.order.recipeId].price.toFixed(2) * satisfactionLevel / 100, tip);
-
-      shellGame.state.moneyBalance += PIZZA_RECIPES[this.order.recipeId].price.toFixed(2) * satisfactionLevel / 100 + tip;
-
-      setTimeout(() => {
-        this.setState('leaving');
-        this.showSpeechBubble("Merci, bonne journée !");
-      }, 2000);
-      
-      setTimeout(() => {
-        recipeCard.hide();
-      }, 3000)
-    }
-  }
+  
 
   // Calcul du pourboire
   calculateTip() {
@@ -190,10 +155,6 @@ class Customer {
 
     // Mise à jour de la patience
     this.updatePatience();
-    
-    if(this.isCustomerOffScreen() || this.state === "dead"){
-      this.reset()
-    }
   }
 
   // Gestion de la bulle de dialogue
@@ -237,34 +198,24 @@ class Customer {
   draw() {
     const clientWidth = 126.5;
     const clientHeight = 190.5;
-    if(this.state === "dying"){
-      push();
-      angleMode(DEGREES);
-      rotate(5)
-      fill(255,0,0)
-      textSize(72)
-      text("BANG !", this.position.x, height - this.position.y - this.offsetY - clientHeight / 2 - 30)
-      pop();
-
-    } else if(this.state !== "dead"){
-      
-      push();
-      translate(this.position.x, height - this.position.y - this.offsetY - clientHeight);
-
-      // Animation de "bounce"
-      let bounceHeight = sin(frameCount * 0.1) * 2;
-      translate(0, bounceHeight);
-
-      // Corps du client
-      image(assets.customer, 0, 0, clientWidth, clientHeight);
-
-      if(this.state === "waiting"){
-        this.drawPatienceBar(clientWidth, clientHeight);
-      }
-      this.drawSpeechBubble(clientWidth);
-
-      pop();
+    
+    push(); // Sauvegarde le contexte de transformation
+    
+    translate(this.position.x, height - this.position.y - this.offsetY - clientHeight);
+    
+    // Animation de "bounce"
+    let bounceHeight = sin(frameCount * 0.1) * 2;
+    translate(0, bounceHeight);
+    
+    // Corps du client
+    image(assets.customers[0], 0, 0, clientWidth, clientHeight);
+    
+    if(this.state === "waiting"){
+      this.drawPatienceBar(clientWidth, clientHeight);
     }
+    this.drawSpeechBubble(clientWidth);
+    
+    pop(); // Restaure le contexte de transformation
   }
   
   drawPatienceBar(clientWidth, clientHeight) {
@@ -291,6 +242,7 @@ class Customer {
   
   drawSpeechBubble(clientWidth) {
     if (this.speechBubble.visible && this.speechBubble.text) {
+
       const bubblePadding = 10;
       const maxBubbleWidth = 230;
 
@@ -334,19 +286,4 @@ class Customer {
     }
   }
   
-  isPointInside(x, y) {
-    const clientX = this.position.x;
-    const clientY = height - this.position.y - this.offsetY - this.clickableArea.height;
-    
-    return (
-      x >= clientX &&
-      x <= clientX + this.clickableArea.width &&
-      y >= clientY &&
-      y <= clientY + this.clickableArea.height
-    );
-  }
-  
-  isCustomerOffScreen(customer) {
-    return this.position.x >= CANVAS_WIDTH + 200;
-  }
 }

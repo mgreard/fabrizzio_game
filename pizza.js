@@ -1,9 +1,11 @@
+// Types d'animations possibles
 const ANIMATION_TYPES = {
   ADDITION: 'addition',
   COOKING: 'cooking',
   PICKUP: 'pickup'
 };
 
+// Classe de base pour les animations
 class Animation {
   constructor(duration) {
     this.startTime = null;
@@ -25,6 +27,7 @@ class Animation {
   }
 }
 
+// Gestionnaire d'animations
 class AnimationManager {
   constructor(pizza) {
     this.pizza = pizza;
@@ -178,12 +181,14 @@ class AnimationManager {
 
 class Pizza {
   constructor(assets, canvasWidth, canvasHeight) {
+    // Configuration du canvas
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
     this.pizzaDiameter = 330;
     this.offsetX = 55;
     this.offsetY = 175;
     
+    // Assets graphiques
     this.assets = assets;
     
     // État de la pizza
@@ -193,7 +198,6 @@ class Pizza {
     };
     this.ingredients = [];
     this.isCooked = false;
-    this.isCooking = false;
     
     // Métadonnées
     this.metadata = {
@@ -222,6 +226,7 @@ class Pizza {
     this.pizzaY = this.canvasHeight/2 + this.offsetY;
     this.pizzaScale = 1;
     
+    
     //pelle
     this.pelleX = this.canvasWidth/2 + this.offsetX;
     this.pelleY = this.canvasHeight/2 + this.offsetY;
@@ -232,6 +237,7 @@ class Pizza {
     
     // Ajouter le gestionnaire d'animations
     this.animationManager = new AnimationManager(this);
+    
   }
 
   // Méthodes de gestion d'état
@@ -275,17 +281,15 @@ class Pizza {
   }
 
   cook() {
-    if (!this.isCooked && !this.isCooking) {
+    if (!this.isCooked) {
       pizza.animatePizzaCooking();
-      this.isCooking = true;
     }
   }
   
-  // Remplacer les méthodes d'animation existantes
+  
+   // Remplacer les méthodes d'animation existantes
   animatePizzaAddition() {
     this.animationManager.startAnimation(ANIMATION_TYPES.ADDITION);
-    pizza.isCooking = false;
-    pizza.isCooked = false;
   }
 
   animatePizzaCooking() {
@@ -340,6 +344,7 @@ class Pizza {
     if(this.animationType === 'pickup'){
         this.drawBox()
     }
+    
   }
 
   drawIngredient(ing) {
@@ -456,7 +461,7 @@ class Pizza {
   selectTool(toolName) {
     this.currentTool = this.currentTool !== toolName ? toolName : null;
   }
-  
+
   getStats() {
     const ingredientCounts = {};
     this.ingredients.forEach(ing => {
@@ -470,14 +475,22 @@ class Pizza {
       isCooked: this.isCooked
     };
   }
-  
-  showTools() {
-    document.querySelector(".sauce_list").classList.remove("hide");
-    document.querySelector(".ingredients_lists").classList.remove("hide");
+
+  serialize() {
+    return {
+      base: this.base,
+      ingredients: this.ingredients,
+      isCooked: this.isCooked,
+      metadata: this.metadata
+    };
   }
-  
-  hideTools(){
-    document.querySelector(".sauce_list").classList.add("hide");
-    document.querySelector(".ingredients_lists").classList.add("hide");
+
+  static deserialize(data, assets, canvasWidth, canvasHeight) {
+    const pizza = new Pizza(assets, canvasWidth, canvasHeight);
+    pizza.base = data.base;
+    pizza.ingredients = data.ingredients;
+    pizza.isCooked = data.isCooked;
+    pizza.metadata = data.metadata;
+    return pizza;
   }
 }

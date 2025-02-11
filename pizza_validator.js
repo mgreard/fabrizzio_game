@@ -1,3 +1,4 @@
+
 // Classe pour valider les pizzas
 class PizzaValidator {
   static validateAgainstRecipe(pizza, recipeName) {
