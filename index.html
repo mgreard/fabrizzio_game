@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/addons/p5.sound.min.js"></script>
+    
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,700;0,900;1,100;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+
+
+  </head>
+  <body>
+    <main>
+      <div class="pizza_builder cook_view">
+          <img src="assets/images/ui/logo.png" class="logo" id="logo" />
+          <img src="assets/images/fab_instant.png" class="fab_instant" />
+        <div class="pizza_wrapper">
+          <div id="newspaper" >
+            <img src="assets/images/newspaper.png" />
+            <h3 id="newspaper-title">TRAGEDY AT CLIFF</h3>
+            <div id="newspaper-text"></div>
+          </div>
+          <span id="main-loading">Loading ...</span>
+          <div class="oven_actions">
+            <button id="cook_btn"></button>
+          </div>
+          <ul class="sauce_list">
+            <li><img src="assets/images/ui/bowl_sauce_tomato.png" class="sauce tomato"/></li>
+            <li><img src="assets/images/ui/bowl_sauce_cream.png" class="sauce cream"/></li>
+          </ul>
+          <div id="canvas-container"></div>
+          
+          <!-- Conteneur shell -->
+          <div class="shell-container">
+            <div class="shell-container-inner">
+              <div id="status-container"></div>
+              <div id="terminal-container"></div>
+            </div>
+          </div>
+          
+          <div class="nav_items">
+            <span id="computer_view_btn" class="nav_item"><img src="assets/images/ui/arrow_computer.png" class="sauce tomato"/></span>
+            <span id="cook_view_btn" class="nav_item"><img src="assets/images/ui/arrow_cook.png" class="sauce tomato"/></span>
+          </div>
+          
+          <div class="ingredients_lists row">
+            <div class="column">
+              <ul class="ingredients_list">
+                <li><img src="assets/images/ui/bowl_tomato.png" class="ingredient tomato"/></li>
+                <li><img src="assets/images/ui/bowl_goat.png" class="ingredient goat"/></li>
+                <li><img src="assets/images/ui/bowl_cheddar.png" class="ingredient cheddar"/></li>
+                <li><img src="assets/images/ui/bowl_mozza.png" class="ingredient mozza"/></li>
+                <li><img src="assets/images/ui/bowl_ham.png" class="ingredient ham"/></li>
+              </ul>
+            </div>
+            <div class="column">
+              <ul class="ingredients_list">
+                <li><img src="assets/images/ui/bowl_oignon.png" class="ingredient onion"/></li>
+                <li><img src="assets/images/ui/bowl_mushroom.png" class="ingredient mushroom"/></li>
+                <li><img src="assets/images/ui/bowl_egg.png" class="ingredient egg"/></li>
+                <li><img src="assets/images/ui/bowl_pepper.png" class="ingredient pepper"/></li>
+                <li><img src="assets/images/ui/bowl_olive.png" class="ingredient olive"/></li>
+                <li><img src="assets/images/ui/bowl_basilic.png" class="ingredient basilic"/></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="recipe-card">
+          <div class="recipe-content">
+            <h1 class="recipe-title">Végétarienne</h1>
+
+            <div class="recipe-base">
+                <h3>Base: Tomate</h3>
+            </div>
+
+            <div class="ingredients-list">
+                <h3 class="ingredients-title">Ingrédients:</h3>
+                <div class="ingredients-wrapper"></div>
+            </div>
+
+            <div class="prices">
+              <div class="price-pizza"></div>
+              <div class="price-tip"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--
+          <button id="cook_btn">Cook</button>
+          <button id="undo_btn">Undo</button>
+          <button id="reset_btn">Reset</button>
+-->
+    </main>
+    
+    <audio id="audio-pizza" src="assets/song.mp3" autoplay loop muted></audio>
+    <button id="mute-btn">
+      <span class="mute"><i class="fa-solid fa-volume-xmark"></i></span>
+      <span class="unmute"><i class="fa-solid fa-volume-high"></i></span>
+    </button>
+
+    <script src="shell/CleaningSystem.js"></script>
+    <script src="shell/CommandHandler.js"></script>
+    <script src="shell/Game.js"></script>
+    <script src="shell/GameState.js"></script>
+    <script src="shell/MarketSystem.js"></script>
+    <script src="shell/MiningSystem.js"></script>
+    <script src="shell/config.js"></script>
+    <script src="shell/utils.js"></script>
+    <script src="shell/EnhancedShell.js"></script>
+    <script src="shell/NewsManager.js"></script>
+    
+    <script src="window/shader.js"></script>
+    <script src="window/window.js"></script>
+    <script src="window/windowsManager.js"></script>
+    <script src="window/fakeOS.js"></script>
+    <script src="window/iconFolder.js"></script>
+    <script src="window/file.js"></script>
+    <script src="window/securityWindow.js"></script>
+    
+    <script src="assetsLoader.js"></script>
+    <script src="EventsHandler.js"></script>
+    <script src="NewsPaper.js"></script>
+    <script src="pizza.js"></script>
+    <script src="pizza_config.js"></script>
+    <script src="pizza_validator.js"></script>
+    <script src="customer.js"></script>
+    <script src="recipe.js"></script>
+    <script src="cooking_jauge.js"></script>
+    <script src="sketch.js"></script>
+    
+    
+  <script>
+    const audioElem = document.getElementById('audio-pizza');
+    const muteBtn   = document.getElementById('mute-btn');
+
+    muteBtn.addEventListener('click', () => {
+      audioElem.muted = !audioElem.muted;
+      
+      // Mise à jour du texte du bouton 
+      if (audioElem.muted) {
+        muteBtn.classList.add('unmute');
+        muteBtn.classList.remove('mute');
+      } else {
+        muteBtn.classList.add('mute');
+        muteBtn.classList.remove('unmute');
+      }
+    });
+  </script>
+  </body>
+</html>

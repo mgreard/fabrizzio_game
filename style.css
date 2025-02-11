@@ -1,0 +1,502 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #1f3452;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+
+#main-loading{
+  background-color: #1f3452;
+  color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  border-radius: 12px;
+}
+
+.grotti #newspaper,
+.grotti .ingredients_lists,
+.grotti .sauce_list,
+.grotti .nav_items,
+.grotti .recipe-card {
+  display: none;
+}
+
+#newspaper{
+    position: absolute;
+    bottom: 0%;
+    right: 0%;
+    width: 810px;
+    height: 562px;
+    transform: translateY(100%) rotate(0deg);
+    transition: all 0.4s ease-out;
+    z-index: 64;
+    font-family: 'Roboto', sans-serif;
+}
+#newspaper img{
+    position: absolute;
+    top: 0%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#newspaper-title{
+    position: absolute;
+    top: 122px;
+    left: 145px;
+    z-index: 2;
+    font-size: 40px;
+    transform: rotate(-13deg);
+}
+#newspaper-text{
+  position: absolute;
+    top: 262px;
+    left: 288px;
+    width: 131px;
+    z-index: 2;
+    font-size: 11px;
+    font-weight: 600;
+    transform: rotate(-13deg);
+    text-align: justify;
+}
+
+#newspaper.show{
+    transform: translateY(0%) rotate(0deg);
+    transition: all 0.4s ease-out;
+}
+
+.fab_instant{
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  width: 320px;
+  transform: translateX(0px) rotate(0deg);
+  transition: all 0.4s ease-out;
+}
+
+.fab_instant.show{
+  transform: translateX(-260px) rotate(-15deg);
+}
+
+.logo{
+  position: absolute;
+  top: -70px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 339.5px;
+  height: 162.5px;
+  z-index: 55;
+}
+
+.hide{
+  display: none !important;
+}
+
+main{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+canvas {
+  display: block;
+  width: 884px;
+  height: 719.78px;
+}
+
+.pizza_builder{
+  position: relative;
+  border: 4px solid #000;
+  border-radius: 12px;
+}
+.pizza_builder:before{
+  content: "";
+  width: 4px;
+  height: calc(100% - 30px);
+  position: absolute;
+  top: 15px;
+  left: -4px;
+  z-index: 3;
+  display: block;
+  background-color: #000;
+}
+.cook_view .pizza_builder.cible{
+  cursor: url('/assets/images/cursor_cible.png') 16 16, auto !important;
+}
+
+.pizza_wrapper{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 884px;
+  height: 719.78px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+
+/* Liste des sauces et ingrédients */
+.ingredients_lists{
+  position: absolute;
+  top: 355px;
+  right: 0;
+  width: 180px;
+}
+
+.ingredients_list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.sauce_list {
+  list-style: none;
+  display: flex;
+  gap: 0px;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 355px;
+  left: 448px;
+}
+
+.sauce_list li,
+.ingredients_list li {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Style des images */
+.sauce_list img{
+  width: 40px;
+  height: 40px;
+}
+
+.ingredients_list img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+
+.ingredients_list img.tomato  {
+  width: 70px;
+  height: 70px;
+}
+
+/* Effet au survol */
+
+.ingredients_list li.selected {
+  transform: translateY(-5px) scale(1.2);
+}
+
+/* Ajout d'une animation au survol */
+.ingredients_list li:hover {
+  transform: translateY(-5px) scale(1.2); /* Léger mouvement vers le haut */
+}
+
+.oven_actions{
+  position: absolute;
+  top: 355px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 278px;
+  height: 140px;
+}
+
+#cook_btn{
+  background-color: transparent;
+  border: none;
+  color: #000;
+  border: 0px solid #fff;
+  width: 250px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, transform 0.1s;
+}
+
+#cook_btn:hover{
+  transform: scale(1.05);
+}
+
+
+.recipe-card {
+    position: absolute;
+    top: 0px;
+    left: 580px;
+    height: 350px;
+    width: 250px;
+    
+    font-family: 'Courier New', monospace;
+    transform: translateY(-50px) rotate(0deg);
+    overflow: hidden;
+    transition: all 0.4s ease-out;
+    opacity: 0;
+    z-index: 60;
+}
+
+.recipe-card.show{
+  transform: translateY(-20px) rotate(10deg);
+  opacity: 1;
+  transition: all 0.4s ease-in;
+}
+
+.recipe-card:before{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-image: url('assets/images/receipt.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    content: "";
+    z-index: 0;
+}
+
+.recipe-content{
+    z-index: 2;
+    display: block;
+    position: relative;
+    padding: 40px;
+}
+
+.recipe-title {
+    text-align: center;
+    color: #333;
+    font-size: 14px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #d62828;
+    padding-bottom: 8px;
+    margin: 0;
+}
+
+.recipe-base {
+    padding: 4px;
+}
+
+.recipe-base h3 {
+    margin: 0;
+    color: #333;
+    font-size: 13px;
+    margin: 0;
+}
+
+.ingredients-list {
+    padding: 6px;
+}
+
+.ingredients-title {
+    color: #d62828;
+    font-size: 13px;
+    border-bottom: 1px dashed #d62828;
+    padding-bottom: 5px;
+    margin-top: 0;
+}
+
+.ingredient-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2px;
+    color: #333;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.prices{
+  position: absolute;
+  top: 185px;
+  left: 50px;
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  transform: rotate(-10deg);
+  font-weight: bold;
+}
+
+.price-pizza{
+  font-size: 24px;
+  color: #333;
+}
+
+.price-tip{
+  transform: rotate(22deg);
+  font-size: 18px;
+  color: #248232;
+  
+}
+
+.shell-container{
+  
+  opacity: 0;
+  position: absolute;
+  top: 350px;
+  left: 0;
+  right: 0;
+  bottom: 0px;
+  padding-top: 53px;
+  flex-direction: column;
+  align-items: center;
+  background-image: url("assets/images/screen.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+.shell-container-inner{
+  position: relative;
+  width: 77%;
+  height: 240px;
+  overflow: hidden;
+  display: none;
+}
+
+
+#status-container{
+  margin-bottom: 10px;
+}
+
+.xterm-viewport{
+  overflow-y: hidden !important;
+}
+
+
+.nav_items{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.nav_item{
+  position: absolute;
+  color: #fff;
+  font-size: 50px;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav_item img{
+  width: 100px;
+}
+
+.nav_item:hover{
+  transform: scale(1.1);
+}
+
+#computer_view_btn{
+  left: 0;
+  bottom: 0;
+  width: 270px;
+  height: 220px;
+  position: absolute;
+  display: none;
+}
+.computer_view #cook_view_btn{
+  display: flex;
+}
+
+.computer_view .shell-container{
+  display: flex;
+  opacity: 1;
+  z-index: 2;
+  pointer-events: none;
+}
+
+
+.computer_view.shell_view .shell-container .shell-container-inner{
+  display: block;
+}
+
+#cook_view_btn{
+  right: -40px;
+  top: 410px;
+  width: 200px;
+  height: 220px;
+  display: none;
+}
+.cook_view #computer_view_btn{
+  display: flex;
+}
+
+#mute-btn{
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background-color: transparent;
+  
+  color: #fff;
+  transform: none !important;
+}
+
+#mute-btn.mute .mute{
+  display: none;
+}
+#mute-btn.mute .unmute{
+  display: block;
+}
+#mute-btn .mute{
+  display: block;
+}
+#mute-btn .unmute{
+  display: none;
+}
